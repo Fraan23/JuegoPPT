@@ -1,4 +1,7 @@
 
+const playerSelection = "Piedra";
+const computerSelection = getComputerChoice();
+
 
 // Funcion turno aleatorio para la maquina
 function getComputerChoice(){
@@ -21,26 +24,24 @@ function playRound(playerSelection, computerSelection) {
         console.log("Ganas, la piedra puede con las tijeras!")
         ganaJugador ++;
     }
-    
+    //Sacamos ganador de la ronda
     if (ganaJugador>ganaMaq){
         console.log("Ganas la ronda.");
     }else{
-        console.log("Perdiste");
+        console.log("Perdiste esta ronda");
     }
   }
    
-  const playerSelection = "Piedra";
-  const computerSelection = getComputerChoice();
+
   console.log(playRound(playerSelection, computerSelection));
 
   // JUEGO
-  /*
   function game(){
-        for (let i = 0; i < 5; i++) {
-            function playRound();        
-         }
-         let totalJugador = 0;
+        for (let i = 0; i <= 5; i++) {
+            console.log("Ronda: " + i);
+            playRound(playerSelection, computerSelection)           
+         }     
   }
-  */
-
-  playRound();
+  
+  game();
+  
