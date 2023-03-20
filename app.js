@@ -1,47 +1,82 @@
 
-const playerSelection = "Piedra";
-const computerSelection = getComputerChoice();
+const PIEDRA = "piedra";
+const PAPEL = "papel";
+const TIJERAS = "tijeras";
+
+const EMPATE = 0;
+const GANA = 1;
+const PIERDE = 2;
 
 
-// Funcion turno aleatorio para la maquina
-function getComputerChoice(){
-    let turno = ['Piedra', 'Papel', 'Tijeras'];
-    const aleatorio = turno[Math.floor(Math.random() * turno.length)];
-    return aleatorio;
+//Constantes para recoger botones por id
+const piedraBtn = document.getElementById("piedra");
+const papelBtn = document.getElementById("papel");
+const tijerasBtn = document.getElementById("tijeras");
+const resultado = document.getElementById("start-text");
+const usuarioImg = document.getElementById("usuario-img");
+const maquinaImg = document.getElementById("maquina-img");
+
+//Recoger eventos de los botones
+piedraBtn.addEventListener("click", () => { 
+    play(PIEDRA); 
+});
+papelBtn.addEventListener("click", () =>{ 
+    play(PAPEL);
+});
+tijerasBtn.addEventListener("click", () => {
+    play(TIJERAS);
+});
+
+//Funcion eleccion de la maquina
+function play(opcionUsuario){
+    const opcionMaquina = calcOpcionMaquina();
+    const result = calcResultado(opcionUsuario, opcionMaquina);
+
+    usuarioImg.src = "img/papel.png";
+    maquinaImg.src = "img/" + opcionMaquina + ".png";
+
+    switch(result){
+        case EMPATE:
+            resultado.innerHTML = "Has empatado!";
+            break;
+        case GANA:
+            resultado.innerHTML = "Has ganado!";
+            break;
+        case PIERDE:
+            resultado.innerHTML = "Has perdido!";
+            break;
+    }
 }
 
-// Funcion para una ronda
-function playRound(playerSelection, computerSelection) {
-    let ganaJugador=0;
-    let ganaMaq=0;
-    
-    if(playerSelection == computerSelection){
-        console.log("EMPATE"); 
-    }else if(computerSelection == "Papel"){
-        console.log("Gana la maquina, el papel puede con la piedra!")
-        ganaMaq ++;
-    }else if(computerSelection == "Tijeras"){
-        console.log("Ganas, la piedra puede con las tijeras!")
-        ganaJugador ++;
+function calcOpcionMaquina(){
+    const numero = Math.floor(Math.random() * 3);
+    switch(numero){
+        case 0:
+            return EMPATE;
+        case 1:
+            return GANA;
+        case 2:
+            return PIERDE;
     }
-    //Sacamos ganador de la ronda
-    if (ganaJugador>ganaMaq){
-        console.log("Ganas la ronda.");
-    }else{
-        console.log("Perdiste esta ronda");
+}
+
+function calcResultado(opcionUsuario, opcionMaquina){
+    if(opcionUsuario === opcionMaquina){
+        return EMPATE;
+
+    }else if(opcionUsuario === PIEDRA){
+        
+        if(opcionMaquina === PAPEL) return PIERDE;
+        if(opcionMaquina === TIJERAS) return GANA;
+        
+    }else if(opcionUsuario === PAPEL){
+
+        if(opcionMaquina === TIJERAS) return PIERDE;
+        if(opcionMaquina === PIEDRA) return GANA;
     }
-  }
-   
+    else if(opcionUsuario === TIJERAS){
 
-  console.log(playRound(playerSelection, computerSelection));
-
-  // JUEGO
-  function game(){
-        for (let i = 0; i <= 5; i++) {
-            console.log("Ronda: " + i);
-            playRound(playerSelection, computerSelection)           
-         }     
-  }
-  
-  game();
-  
+        if(opcionMaquina === PIEDRA) return PIERDE;
+        if(opcionMaquina === PAPEL) return GANA;
+    }
+}
